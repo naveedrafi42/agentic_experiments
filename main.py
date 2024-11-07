@@ -7,32 +7,33 @@ CLAUDE_CONFIG = [{
     "api_type": "anthropic"
 }]
 
-def create_chat_agents():
-    """Initialize and return the AI assistant and user proxy agents."""
-    ai_agent = autogen.AssistantAgent(
-        name="ai_agent",
-        llm_config={"config_list": CLAUDE_CONFIG},
-        system_message="You are a helpful AI assistant who can discuss any topic and help with tasks."
-    )
+class DataAnalystAgent:
+    def __init__(self):
+        self.ai_agent = autogen.AssistantAgent(
+            name="data_analyst",
+            llm_config={"config_list": CLAUDE_CONFIG},
+            system_message="You are a helpful data analyst AI assistant who can analyze data and provide insights."
+        )
+        self.current_focus = "Ready to analyze data"
+        self.confidence_level = 95
+        self.processing_mode = "Active listening"
 
-    user_agent = autogen.UserProxyAgent(
-        name="user",
-        human_input_mode="ALWAYS",
-        code_execution_config={
-            "work_dir": "coding",
-            "use_docker": False,
+    def process_message(self, message):
+        # Use the AI agent to process the message
+        response = self.ai_agent.generate_response(message)
+        
+        # Update state based on processing
+        self.current_focus = f"Analyzing: {message[:30]}..."
+        
+        return {
+            'response': response,
+            'current_focus': self.current_focus,
+            'confidence_level': self.confidence_level,
+            'processing_mode': self.processing_mode
         }
-    )
-    
-    return ai_agent, user_agent
 
-def main():
-    """Initialize chat agents and start the conversation."""
-    ai_agent, user_agent = create_chat_agents()
-    user_agent.initiate_chat(
-        ai_agent,
-        message="Hello! I'm ready to help you with any questions or tasks you have."
-    )
+def create_agent():
+    return DataAnalystAgent()
 
 if __name__ == "__main__":
-    main()
+    agent = create_agent()
