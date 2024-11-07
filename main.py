@@ -37,7 +37,7 @@ def create_agent():
 
 def process_message(agent, message):
     """Process a message and return the agent's response."""
-    response = agent.generate_response(message)
+    response = agent.generate_reply(message)
     return {
         'response': response,
         'current_focus': 'Processing user query',
