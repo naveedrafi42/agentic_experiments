@@ -35,15 +35,15 @@ function addMessageToChat(sender, message) {
     messageDiv.className = `message ${sender}-message`;
     
     if (sender === 'analyst') {
-        messageDiv.textContent = '';
+        messageDiv.textContent = message[0]; // Start with first character
         const typeWriter = (text, index) => {
             if (index < text.length) {
-                messageDiv.textContent += text.charAt(index);
+                messageDiv.textContent = text.substring(0, index + 1);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-                setTimeout(() => typeWriter(text, index + 1), 10); // Adjust speed here (lower = faster)
+                setTimeout(() => typeWriter(text, index + 1), 10);
             }
         };
-        typeWriter(message, 0);
+        typeWriter(message, 1); // Start from second character
     } else {
         messageDiv.textContent = message;
     }
