@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
+from main import create_agent
 
 app = Flask(__name__)
+agent = create_agent()
 
 # Simulated metrics data - in a real app, this would come from a database
 metrics = {
@@ -26,14 +28,18 @@ def home():
 @app.route('/chat', methods=['POST'])
 def chat():
     message = request.json.get('message', '')
-    # Simulate analyst response
-    response = f"I understand your query: '{message}'. Let me analyze that..."
     
-    # Update metrics
+    # Get response from agent
+    result = agent.process_message(message)
+    
+    # Update metrics and state
     metrics['chat_sessions'] += 1
+    analyst_state['current_focus'] = result['current_focus']
+    analyst_state['confidence_level'] = result['confidence_level']
+    analyst_state['processing_mode'] = result['processing_mode']
     
     return jsonify({
-        'response': response,
+        'response': result['response'],
         'metrics': metrics,
         'analyst_state': analyst_state
     })
