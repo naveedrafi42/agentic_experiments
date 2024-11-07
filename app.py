@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
-from main import create_agent
+from main import create_agent, process_message
 
 app = Flask(__name__)
 agent = create_agent()
@@ -30,7 +30,7 @@ def chat():
     message = request.json.get('message', '')
     
     # Get response from agent
-    result = agent.process_message(message)
+    result = process_message(agent, message)
     
     # Update metrics and state
     metrics['chat_sessions'] += 1
