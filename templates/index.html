@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analyst Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard">
+            <h2>Dashboard Metrics</h2>
+            <div class="metrics">
+                <div class="metric-card">
+                    <h3>Analyses Completed</h3>
+                    <p id="analyses-count">{{ metrics.analyses_completed }}</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Insights Generated</h3>
+                    <p id="insights-count">{{ metrics.insights_generated }}</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Chat Sessions</h3>
+                    <p id="sessions-count">{{ metrics.chat_sessions }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="analyst-mind">
+            <h2>Analyst's Mind</h2>
+            <div class="mind-state">
+                <p>Current Focus: <span id="current-focus">{{ analyst_state.current_focus }}</span></p>
+                <p>Confidence Level: <span id="confidence-level">{{ analyst_state.confidence_level }}%</span></p>
+                <p>Processing Mode: <span id="processing-mode">{{ analyst_state.processing_mode }}</span></p>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Ask your question...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
