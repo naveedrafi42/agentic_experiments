@@ -33,7 +33,21 @@ function addMessageToChat(sender, message) {
     const chatMessages = document.getElementById('chat-messages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}-message`;
-    messageDiv.textContent = message;
+    
+    if (sender === 'analyst') {
+        messageDiv.textContent = '';
+        const typeWriter = (text, index) => {
+            if (index < text.length) {
+                messageDiv.textContent += text.charAt(index);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                setTimeout(() => typeWriter(text, index + 1), 10); // Adjust speed here (lower = faster)
+            }
+        };
+        typeWriter(message, 0);
+    } else {
+        messageDiv.textContent = message;
+    }
+    
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
